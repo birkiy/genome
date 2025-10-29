@@ -1,4 +1,4 @@
-genome
+Genomeblocks
 ======
 
 Fluent building blocks for regulatory genomics.
@@ -6,7 +6,6 @@ Fluent building blocks for regulatory genomics.
 - `Loci`: craft and manipulate candidate regulatory element (CRE) sets.
 - `Architecture`: overlay chromatin contacts and mcool matrices on your loci.
 - `Genes`: annotate CREs with promoter-anchored gene models.
-- `genome.signal`: extract bigWig signal, make heatmaps, draw profiles.
 
 Quick Start
 -----------
@@ -28,43 +27,10 @@ genes = Genes.make(data['Gencode-GTF'], promoter_r=1000)
 counts = genes.annotations(se & cre).groupby('annotation').size()
 ```
 
-Signal Utilities
-----------------
-
-```python
-from genome import Loci
-from genome.signal import signal, plot_heatmap, plot_profiles
-
-loci = Loci.make("path/to/regions.bed")
-signals = loci.signal(bigwigs=["sample1.bw", "sample2.bw"], n_bins=200, flank=3000)
-
-loci.plot_heatmap(S=signals, samples=["Sample1", "Sample2"], profile=True)
-lcoi.plot_profiles(S=signals)
-```
-
 Setup
 -----
 
 ```bash
-# managed environment
-conda env create -f conda/environment.yml
-conda activate genome-dev
-python -m pip install .
-
-# manual environment
-conda create -n genome python=3.10 -c conda-forge numpy pandas scipy cgranges pyranges tqdm -y
-conda activate genome
-python -m pip install .
+conda env create -f environment.yml
+conda activate genomeblocks
 ```
-
-Packaging
----------
-
-```bash
-conda install -c conda-forge conda-build
-conda-build conda/recipe
-```
-
-Notes
-- Update metadata in `conda/recipe/meta.yaml` before releasing.
-- Optional extras (`cooler`, `lightmotif`, `graph-tool`) are commented in `conda/environment.yml`.
