@@ -1,0 +1,10 @@
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+__pycache__/
+*.py[cod]
+
+# Conda recipe and build files
+conda/
+*.tar.gz

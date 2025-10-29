@@ -19,16 +19,11 @@ Requires-Dist: tqdm
 Requires-Dist: numpy
 Requires-Dist: pandas
 Requires-Dist: scipy
-Provides-Extra: full
-Requires-Dist: graph-tool; sys_platform == "linux" and extra == "full"
-Requires-Dist: lightmotif; extra == "full"
-Requires-Dist: cooler; extra == "full"
-Provides-Extra: graph
-Requires-Dist: graph-tool; sys_platform == "linux" and extra == "graph"
-Provides-Extra: motifs
-Requires-Dist: lightmotif; extra == "motifs"
-Provides-Extra: cool
-Requires-Dist: cooler; extra == "cool"
+Requires-Dist: pyBigWig
+Requires-Dist: matplotlib
+Requires-Dist: cooler
+Requires-Dist: graph-tool
+Requires-Dist: lightmotif
 Dynamic: license-file
 
 genome

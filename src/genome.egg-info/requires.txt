@@ -4,21 +4,8 @@ tqdm
 numpy
 pandas
 scipy
-
-[cool]
+pyBigWig
+matplotlib
 cooler
-
-[full]
-lightmotif
-cooler
-
-[full:sys_platform == "linux"]
 graph-tool
-
-[graph]
-
-[graph:sys_platform == "linux"]
-graph-tool
-
-[motifs]
 lightmotif

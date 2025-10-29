@@ -29,24 +29,10 @@ dependencies = [
     "tqdm",
     "numpy",
     "pandas",
-    "scipy"
-]
-
-[project.optional-dependencies]
-# Heavy or platform-specific packages that are not available on all indexes
-# Keep these as extras so users can opt-in when they have the right platform
-# and system packages installed.
-full = [
-    "graph-tool ; sys_platform == 'linux'",
-    "lightmotif",
+    "scipy",
+    "pyBigWig",
+    "matplotlib",
     "cooler",
-]
-graph = [
-    "graph-tool ; sys_platform == 'linux'",
-]
-motifs = [
+    "graph-tool",
     "lightmotif",
-]
-cool = [
-    "cooler",
 ]
