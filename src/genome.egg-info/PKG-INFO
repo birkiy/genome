@@ -1,0 +1,67 @@
+Metadata-Version: 2.4
+Name: genome
+Version: 0.0.1
+Summary: Locus and architecture utilities (ported into a package).
+Author-email: Umut Berkay Altintas <umutberkayaltintas@gmail.com>
+License-Expression: MIT
+Keywords: genomics,loci,genome,graph,architecture
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: cgranges
+Requires-Dist: pyranges
+Requires-Dist: tqdm
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: scipy
+Provides-Extra: full
+Requires-Dist: graph-tool; sys_platform == "linux" and extra == "full"
+Requires-Dist: lightmotif; extra == "full"
+Requires-Dist: cooler; extra == "full"
+Provides-Extra: graph
+Requires-Dist: graph-tool; sys_platform == "linux" and extra == "graph"
+Provides-Extra: motifs
+Requires-Dist: lightmotif; extra == "motifs"
+Provides-Extra: cool
+Requires-Dist: cooler; extra == "cool"
+Dynamic: license-file
+
+
+genome
+======
+
+This repository contains the `genome` Python package (refactored from the previous `locus` monolith) and a conda recipe scaffold for building and distributing the package via conda.
+
+Installation (recommended)
+
+1) Using conda (recommended for heavy binary deps):
+
+```bash
+# create an environment and install runtime deps from conda-forge
+conda create -n genome python=3.10 -c conda-forge numpy pandas -y
+conda activate genome
+
+# install this package from source (local)
+python -m pip install .
+```
+
+2) Installing from PyPI/TestPyPI is intentionally not the default here; this repo is being prepared for conda-forge distribution under the name `genome`.
+
+Building the conda package locally
+
+```bash
+# install conda-build if needed
+conda install -c conda-forge conda-build
+# run conda-build from repo root
+conda-build conda/recipe
+```
+
+Notes
+- The conda recipe `conda/recipe/meta.yaml` is a scaffold; update `about.home`, `extra.recipe-maintainers` and `source` to point to your GitHub repository or tarball before opening a conda-forge feedstock PR.
+- If you want me to open a feedstock PR on conda-forge, I can prepare the feedstock files; you'll still need to create the feedstock repository or grant rights where necessary.
+

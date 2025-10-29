@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "genome"
+version = "0.0.1"
+description = "Locus and architecture utilities (ported into a package)."
+readme = "README.md"
+authors = [ { name = "Umut Berkay Altintas", email = "umutberkayaltintas@gmail.com" } ]
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.8"
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+]
+
+keywords = ["genomics", "loci", "genome", "graph", "architecture"]
+
+# Minimal dependency suggestions based on imports in the code.
+dependencies = [
+    "cgranges",
+    "pyranges",
+    "tqdm",
+    "numpy",
+    "pandas",
+    "scipy"
+]
+
+[project.optional-dependencies]
+# Heavy or platform-specific packages that are not available on all indexes
+# Keep these as extras so users can opt-in when they have the right platform
+# and system packages installed.
+full = [
+    "graph-tool ; sys_platform == 'linux'",
+    "lightmotif",
+    "cooler",
+]
+graph = [
+    "graph-tool ; sys_platform == 'linux'",
+]
+motifs = [
+    "lightmotif",
+]
+cool = [
+    "cooler",
+]

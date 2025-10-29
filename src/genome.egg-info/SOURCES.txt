@@ -1,0 +1,15 @@
+LICENSE
+README.md
+pyproject.toml
+src/genome/__init__.py
+src/genome/architecture.py
+src/genome/features.py
+src/genome/genes.py
+src/genome/loci.py
+src/genome/locus.py
+src/genome/motifs.py
+src/genome.egg-info/PKG-INFO
+src/genome.egg-info/SOURCES.txt
+src/genome.egg-info/dependency_links.txt
+src/genome.egg-info/requires.txt
+src/genome.egg-info/top_level.txt
