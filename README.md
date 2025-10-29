@@ -1,34 +1,70 @@
-
 genome
 ======
 
-This repository contains the `genome` Python package (refactored from the previous `locus` monolith) and a conda recipe scaffold for building and distributing the package via conda.
+Fluent building blocks for regulatory genomics.
 
-Installation (recommended)
+- `Loci`: craft and manipulate candidate regulatory element (CRE) sets.
+- `Architecture`: overlay chromatin contacts and mcool matrices on your loci.
+- `Genes`: annotate CREs with promoter-anchored gene models.
+- `genome.signal`: extract bigWig signal, make heatmaps, draw profiles.
 
-1) Using conda (recommended for heavy binary deps):
+Quick Start
+-----------
+
+```python
+from genome import Architecture, Genes, Loci
+
+cre = (Loci.make(data['ATAC-bed'])
+           .slop(100)
+           .sort()
+           .merge())
+se = cre.intersect(Loci.make(data['H3K27ac-SE']))
+
+arch = (Architecture.make(cre, data['RNAP-loops'], r=2500)
+                       .add_mcool(cre, data['RNAP-mcool'], resolution=5000)
+                       .normalize(cre))
+
+genes = Genes.make(data['Gencode-GTF'], promoter_r=1000)
+counts = genes.annotations(se & cre).groupby('annotation').size()
+```
+
+Signal Utilities
+----------------
+
+```python
+from genome import Loci
+from genome.signal import signal, plot_heatmap, plot_profiles
+
+loci = Loci.make("path/to/regions.bed")
+signals = loci.signal(bigwigs=["sample1.bw", "sample2.bw"], n_bins=200, flank=3000)
+
+loci.plot_heatmap(S=signals, samples=["Sample1", "Sample2"], profile=True)
+lcoi.plot_profiles(S=signals)
+```
+
+Setup
+-----
 
 ```bash
-# create an environment and install runtime deps from conda-forge
-conda create -n genome python=3.10 -c conda-forge numpy pandas -y
-conda activate genome
+# managed environment
+conda env create -f conda/environment.yml
+conda activate genome-dev
+python -m pip install .
 
-# install this package from source (local)
+# manual environment
+conda create -n genome python=3.10 -c conda-forge numpy pandas scipy cgranges pyranges tqdm -y
+conda activate genome
 python -m pip install .
 ```
 
-2) Installing from PyPI/TestPyPI is intentionally not the default here; this repo is being prepared for conda-forge distribution under the name `genome`.
-
-Building the conda package locally
+Packaging
+---------
 
 ```bash
-# install conda-build if needed
 conda install -c conda-forge conda-build
-# run conda-build from repo root
 conda-build conda/recipe
 ```
 
 Notes
-- The conda recipe `conda/recipe/meta.yaml` is a scaffold; update `about.home`, `extra.recipe-maintainers` and `source` to point to your GitHub repository or tarball before opening a conda-forge feedstock PR.
-- If you want me to open a feedstock PR on conda-forge, I can prepare the feedstock files; you'll still need to create the feedstock repository or grant rights where necessary.
-
+- Update metadata in `conda/recipe/meta.yaml` before releasing.
+- Optional extras (`cooler`, `lightmotif`, `graph-tool`) are commented in `conda/environment.yml`.

@@ -1,0 +1,19 @@
+name: genome
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.10
+  - pip
+  - numpy
+  - pandas
+  - scipy
+  - cgranges
+  - pyranges
+  - tqdm
+  - cooler
+  - graph-tool
+  - pybigwig
+  - matplotlib
+  - pip:
+    - lightmotif
