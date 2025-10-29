@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "genome"
 version = "0.0.1"
-description = "Locus and architecture utilities (ported into a package)."
+description = "Fluent building blocks for regulatory genomics."
 readme = "README.md"
 authors = [ { name = "Umut Berkay Altintas", email = "umutberkayaltintas@gmail.com" } ]
 license = "MIT"

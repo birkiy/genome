@@ -1,0 +1,103 @@
+Metadata-Version: 2.4
+Name: genome
+Version: 0.0.1
+Summary: Fluent building blocks for regulatory genomics.
+Author-email: Umut Berkay Altintas <umutberkayaltintas@gmail.com>
+License-Expression: MIT
+Keywords: genomics,loci,genome,graph,architecture
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: cgranges
+Requires-Dist: pyranges
+Requires-Dist: tqdm
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: scipy
+Provides-Extra: full
+Requires-Dist: graph-tool; sys_platform == "linux" and extra == "full"
+Requires-Dist: lightmotif; extra == "full"
+Requires-Dist: cooler; extra == "full"
+Provides-Extra: graph
+Requires-Dist: graph-tool; sys_platform == "linux" and extra == "graph"
+Provides-Extra: motifs
+Requires-Dist: lightmotif; extra == "motifs"
+Provides-Extra: cool
+Requires-Dist: cooler; extra == "cool"
+Dynamic: license-file
+
+genome
+======
+
+Fluent building blocks for regulatory genomics.
+
+- `Loci`: craft and manipulate candidate regulatory element (CRE) sets.
+- `Architecture`: overlay chromatin contacts and mcool matrices on your loci.
+- `Genes`: annotate CREs with promoter-anchored gene models.
+- `genome.signal`: extract bigWig signal, make heatmaps, draw profiles.
+
+Quick Start
+-----------
+
+```python
+from genome import Architecture, Genes, Loci
+
+cre = (Loci.make(data['ATAC-bed'])
+           .slop(100)
+           .sort()
+           .merge())
+se = cre.intersect(Loci.make(data['H3K27ac-SE']))
+
+arch = (Architecture.make(cre, data['RNAP-loops'], r=2500)
+                       .add_mcool(cre, data['RNAP-mcool'], resolution=5000)
+                       .normalize(cre))
+
+genes = Genes.make(data['Gencode-GTF'], promoter_r=1000)
+counts = genes.annotations(se & cre).groupby('annotation').size()
+```
+
+Signal Utilities
+----------------
+
+```python
+from genome import Loci
+from genome.signal import signal, plot_heatmap, plot_profiles
+
+loci = Loci.make("path/to/regions.bed")
+signals = loci.signal(bigwigs=["sample1.bw", "sample2.bw"], n_bins=200, flank=3000)
+
+loci.plot_heatmap(S=signals, samples=["Sample1", "Sample2"], profile=True)
+lcoi.plot_profiles(S=signals)
+```
+
+Setup
+-----
+
+```bash
+# managed environment
+conda env create -f conda/environment.yml
+conda activate genome-dev
+python -m pip install .
+
+# manual environment
+conda create -n genome python=3.10 -c conda-forge numpy pandas scipy cgranges pyranges tqdm -y
+conda activate genome
+python -m pip install .
+```
+
+Packaging
+---------
+
+```bash
+conda install -c conda-forge conda-build
+conda-build conda/recipe
+```
+
+Notes
+- Update metadata in `conda/recipe/meta.yaml` before releasing.
+- Optional extras (`cooler`, `lightmotif`, `graph-tool`) are commented in `conda/environment.yml`.

@@ -6,7 +6,7 @@ package:
   version: "{{ version }}"
 
 source:
-  url: https://github.com/ualtintas/locus2/releases/download/v{{ version }}/{{ name }}-{{ version }}.tar.gz
+  url: https://github.com/birkiy/genome/releases/download/v{{ version }}/{{ name }}-{{ version }}.tar.gz
   sha256: 85693fbdfb5188e9174d482b42bd0e2c32a45e869b531aba561618e014b4ad31
 
 build:
@@ -36,16 +36,15 @@ test:
     - python -c "import genome; assert 'Gene' in genome.__all__"
 
 about:
-  home: https://github.com/ualtintas/locus2
+  home: https://github.com/birkiy/genome
   license: MIT
   license_family: MIT
   license_file: LICENSE
-  summary: Genome utilities for loci and architecture extracted from the locus2 project.
+  summary: Genome utilities for loci and architecture.
   description: |
-    `genome` provides the refactored core data structures, lazy import helpers,
-    and convenience utilities that originally lived in the locus monolith.
-  dev_url: https://github.com/ualtintas/locus2
+    `genome`provides fluent building blocks for regulatory genomics.
+  dev_url: https://github.com/birkiy/genome
 
 extra:
   recipe-maintainers:
-    - ualtintas
+    - birkiy
