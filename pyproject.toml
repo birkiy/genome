@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "genome"
-version = "0.0.1"
+version = "v0.0.1"
 description = "Fluent building blocks for regulatory genomics."
 readme = "README.md"
 authors = [ { name = "Umut Berkay Altintas", email = "umutberkayaltintas@gmail.com" } ]
