@@ -15,6 +15,6 @@ dependencies:
   - graph-tool
   - pyranges
   - tqdm
+  - cgranges
   - pip:
-      - cgranges
       - lightmotif

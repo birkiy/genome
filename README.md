@@ -11,7 +11,7 @@ Quick Start
 -----------
 
 ```python
-from genome import Architecture, Genes, Loci
+from genomeblocks import Architecture, Genes, Loci
 
 cre = (Loci.make(data['ATAC-bed'])
            .slop(100)
