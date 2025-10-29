@@ -1,7 +1,8 @@
 """Architecture graph utilities (graph-tool wrapper)."""
 from typing import Optional
 
-import graph_tool as gt
+import graph_tool as gt # ignore import
+
 
 class Architecture(gt.Graph):
 

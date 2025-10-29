@@ -31,11 +31,15 @@ _EXPORTS: Dict[str, tuple[str, str]] = {
 	# loci
 	'Loci': ('.loci', 'Loci'),
 	# architecture
-	'Architecture': ('.architecture', 'Architecture'),
+	'Architecture': ('.architecture', 'Architecture', 'graph-tool'),
 	# motifs
 	'make_genome': ('.motifs', 'make_genome'),
 	'scan_motifs': ('.motifs', 'scan_motifs'),
 }
+
+
+
+
 
 __all__ = sorted(list(_EXPORTS.keys()))
 
