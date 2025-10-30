@@ -22,8 +22,7 @@ _EXPORTS: Dict[str, tuple[str, str]] = {
 	'CDS': ('.locus', 'CDS'),
 	'UTR': ('.locus', 'UTR'),
 	# features
-	'Features': ('.features', 'Features'),
-	'Tags': ('.features', 'Tags'),
+	'Tags': ('.tags', 'Tags'),
 	# genes
 	'Transcript': ('.genes', 'Transcript'),
 	'Gene': ('.genes', 'Gene'),
