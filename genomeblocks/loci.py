@@ -1,10 +1,9 @@
 """Loci container and interval operations."""
-from typing import Iterable, Optional, Union, List
+from typing import Iterable, Optional, Union, List, Dict
 from collections import defaultdict
 
 # Local imports are delayed to avoid circular imports
 from .locus import Locus
-from .features import Tags
 import cgranges as cr
 
 class Loci(list):
@@ -14,8 +13,6 @@ class Loci(list):
         self.filename = filename
         self._uids: Optional[dict] = None
         self._cgr: Optional[cr.cgranges] = None
-        self._genes = None
-        self._tags: Optional[Tags] = None
 
     def _build_cgr(self) -> None:
         idx = cr.cgranges()
@@ -29,18 +26,6 @@ class Loci(list):
         if self._cgr is None: self._build_cgr()
         return self._cgr
 
-    @property
-    def genes(self):
-        # delay import to avoid circular import
-        if self._genes is None:
-            from .genes import Genes
-            self._genes = Genes()
-        return self._genes
-
-    @property
-    def tags(self) -> Tags:
-        if self._tags is None: self._tags = Tags()
-        return self._tags
 
     @property
     def uids(self) -> dict:
@@ -70,7 +55,7 @@ class Loci(list):
         if path is not None:
             with open(path, 'w') as f:
                 f.write(content)
-        return content
+
 
     def __and__(s, o: "Loci") -> "Loci": return s.intersect(o)
     def __add__(s, o: "Loci") -> "Loci": return Loci([*s, *o])
@@ -80,10 +65,7 @@ class Loci(list):
     def __xor__(s, o: "Loci") -> "Loci": return (s - o) + (o - s)
 
     def copy(self) -> "Loci":
-        new = Loci(list(self), filename=self.filename)
-        if self._genes is not None: new._genes = self.genes.copy()
-        if self._tags is not None: new._tags = self.tags.copy()
-        return new
+        return Loci(list(self), filename=self.filename)
 
     def __str__(self):
         return f"Loci(n={len(self)})"
@@ -189,10 +171,30 @@ def nearest(s: Loci, o: Loci, s_names=None, o_names=None):
     return pr_s.nearest(pr_o).df.rename(columns={'Chromosome': 'Chr'})
 
 
+from .tags import Tags
+from .genes import Genes
+
+
+def map(
+    s: Loci,
+    mapping: Union[Dict[str, "Loci"], Genes],
+) -> Tags:
+    """
+    Convenience wrapper that materialises tag masks for the provided mapping.
+
+    Args:
+        mapping: Dict of label -> Loci overlaps to evaluate, or a `Genes` object.
+
+    Returns:
+        Tags database populated with the requested annotations.
+    """
+    tags = Tags.make(s)
+    tags.add(mapping)
+    return tags
+
+
 def tag(s: Loci, o: Loci, tag: str):
-    s.tags[tag] = []
-    for l in s: s.tags[tag].append(any(True for *_ , _ in o.cgr.overlap(l.chrom, l.start, l.end)))
-    return s
+    return Tags.make(s).add({tag: o})
 
 
 Loci.overlaps = overlaps
@@ -203,3 +205,4 @@ Loci.sort = sort
 Loci.merge = merge
 Loci.nearest = nearest
 Loci.tag = tag
+Loci.map = map

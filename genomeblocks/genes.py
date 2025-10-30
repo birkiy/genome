@@ -42,17 +42,14 @@ class Gene(Locus):
     def add_transript(s, t_id, t: Transcript) -> None:
         s.transcripts[t_id] = t
 
-
+@dataclass
 class Genes(dict):
     """a dictionary of genes (lightweight container)
-
-    Many original helper methods are attached as functions so we preserve names.
     """
-    def __init__(self, *args, filename:Optional[str]=None, _promoter_r:int=1000, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.filename = filename
-        self._annot = None
-        self._promoter_r = _promoter_r
+    filename: Optional[str] = None
+    _annot: Optional[dict] = None
+    _promoter_r: Optional[int] = 1000
+        
 
     def _build_annot(s):
         # delay Loci import to avoid circular import
@@ -104,6 +101,7 @@ def _parse_attributes(attr_str: str) -> Dict[str, str]:
 
 
 # GTF/GFF make function (as classmethod)
+@classmethod
 def make(cls, filename, gene_name_key='gene_name', gene_type_key='gene_type', chr_map=None, promoter_r=1000):
     genes = Genes(filename=filename, _promoter_r=promoter_r)
     unmapped = []
@@ -162,10 +160,8 @@ def make(cls, filename, gene_name_key='gene_name', gene_type_key='gene_type', ch
     if len(unmapped) > 0: print('[INFO] Unmapped feature types:', ', '.join(unmapped))
     return genes
 
-
 # Attach helper functions to Genes to preserve original API assignment
-Genes.make = classmethod(make)
-
+Genes.make = make
 
 def annotations(s: Genes, L):
     import pandas as pd
@@ -194,5 +190,5 @@ def nearest_genes(s, loci):
     return loci.nearest(l_tss, o_names=g_names)
 
 
-Genes.annotations = staticmethod(annotations)
-Genes.nearest_genes = staticmethod(nearest_genes)
+Genes.annotations = annotations
+Genes.nearest_genes = nearest_genes

@@ -8,8 +8,11 @@ class Architecture(gt.Graph):
 
     def __init__(s, name: Optional[str]=None):
         super().__init__(directed=False); s._name = name or "Architecture"
+        # --- Vertex Properties (for loci) ---
         s.vp.uid = s.new_vertex_property("string")
         s.index = {}
+
+        # --- Edge Properties (for links) ---
         s.ep.w = s.new_edge_property("float")
         s.ep.n = s.new_edge_property("float")
         s.ep.d = s.new_edge_property("float")
@@ -74,8 +77,8 @@ class Architecture(gt.Graph):
         return new_arch
 
 # attach methods defined elsewhere (keeps same top-level API in core shim)
-
-def make(cls, loci, bedpe: str, *, name: str="Skeleton", r: int=2500, dmax=1e7, verbose: bool=True):
+@classmethod
+def make(cls, loci, bedpe: str, *, name: str="Skeleton", r: int=2500, dmax=1e9, verbose: bool=True):
     from tqdm import tqdm
     G = cls(name=name)
     mapped_loops = 0

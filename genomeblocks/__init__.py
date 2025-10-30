@@ -31,7 +31,7 @@ _EXPORTS: Dict[str, tuple[str, str]] = {
 	# loci
 	'Loci': ('.loci', 'Loci'),
 	# architecture
-	'Architecture': ('.architecture', 'Architecture', 'graph-tool'),
+	'Architecture': ('.architecture', 'Architecture'),
 	# motifs
 	'make_genome': ('.motifs', 'make_genome'),
 	'scan_motifs': ('.motifs', 'scan_motifs'),

@@ -127,10 +127,11 @@ def signal(
     max_bw_parallel: int = 6,
     max_workers: int | None = None,
     span: bool = False,
+    verbose: bool = True
 ) -> np.ndarray:
     """
     Extract signal from bigwig files for given genomic loci.
-    
+
     Args:
         loci: Genomic loci to extract signal from
         bigwigs: List of bigwig file paths
@@ -142,10 +143,15 @@ def signal(
         max_bw_parallel: Maximum number of bigwig files to process in parallel
         max_workers: Maximum number of worker processes
         span: Use full region span instead of center±flank
-    
+
     Returns:
         numpy array of shape (n_loci, n_tracks, n_bins)
     """
+    if verbose:
+        print(f"[INFO] Extracting {len(bigwigs)} bigwigs for {len(loci)} loci "
+            f"into {n_bins} bins (span={span}, agg='{agg}'). 🪏")
+
+
     n_loci, n_tracks = len(loci), len(bigwigs)
     if n_loci == 0:
         raise ValueError("No loci provided.")
